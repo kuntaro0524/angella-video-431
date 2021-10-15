@@ -1,31 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 
 export const ToDoItem = (props) => {
-  const { todoItems } = props;
-  const [doneFlag, setDoneFlag] = useState([]);
+  // 子のコンポーネントからは変数や関数を受け取っているだけ。
+  const { item, id, deleteElem } = props;
+  // console.log(item, id);
 
-  const onClickButton = (index) => {
-    console.log(index);
-    const currentFlags = [...doneFlag];
-    console.log(currentFlags);
-
-    currentFlags[index] = !currentFlags[index];
-    setDoneFlag(currentFlags);
-  };
-
+  // 注意すべきなのは関数の定義。単純に onClick={deleteElem} としてしまうと、レンダリングのときにすぐに実行されてしまう
+  // ここはアロー関数として設定してあげると「クリックしたときだけ」表示されることになる。
+  // ニュアンスはよくわからんけど慣れていくしか無いね
   return (
     <>
-      <ul>
-        {todoItems.map((todoItem, index) => (
-          <li
-            key={todoItem}
-            onClick={() => onClickButton(index)}
-            style={doneFlag[index] ? { textDecoration: "line-through" } : {}}
-          >
-            {todoItem}
-          </li>
-        ))}
-      </ul>
+      <li onClick={() => deleteElem(id)}>{item}</li>
     </>
   );
 };
